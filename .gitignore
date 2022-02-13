@@ -1,0 +1,7 @@
+bin/
+obj/
+.vs/
+AssemblyInfo.cs
+WPF_Productos.csproj
+WPF_Productos.csproj.user
+WPF_Productos.sln

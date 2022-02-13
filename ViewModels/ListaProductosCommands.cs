@@ -103,7 +103,7 @@ namespace WPF_Productos.ViewModels
         #region CONDICIONES PARA EJECUTAR COMMANDOS
         private bool PuedoMostrarProductos()
         {
-            return ((RutaExcel != null && RutaExcel != "") && (ProductosExcel_View == null || ProductosExcel_View.Count < 1));
+            return ((RutaExcel != null && RutaExcel != ""));
         }
         private bool PuedoActualizarProductos()
         {

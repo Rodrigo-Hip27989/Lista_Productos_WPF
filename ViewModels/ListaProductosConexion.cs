@@ -15,7 +15,6 @@ namespace WPF_Productos.ViewModels
         private SLDocument sl;
         public void LoadContenidoTabla()
         {
-            sl = new SLDocument(RutaExcel);
             Producto productoFilaActual;
             int countRow = 2;
             while (!string.IsNullOrEmpty(sl.GetCellValueAsString(countRow, 1)))

@@ -41,7 +41,11 @@
         </ComboBox>
         
         <TextBox Grid.Row="2" Grid.Column="3" Margin="7" Text="{Binding Current__Producto.Precio}" Background="#80cbc4 "/>
-        <TextBox Grid.Row="2" Grid.Column="4" Margin="7" Text="{Binding Current__Producto.Fecha}" Background="#80cbc4 "/>
+<!--        
+        <TextBox Grid.Row="2" Grid.Column="4" Margin="7" Text="{Binding Current__Producto.Fecha}" Background="#80cbc4"/>
+-->
+        <DatePicker Grid.Row="2" Grid.Column="4" Margin="5,8" Background="#80cbc4" BorderBrush="Transparent"
+                     SelectedDate="{Binding Current__Producto.Fecha}"/>
 
         <ComboBox Grid.Row="3" Grid.Column="0" Margin="7" 
                  x:Name="comboProductos" SelectedItem="{Binding Current__Producto.Nombre}">

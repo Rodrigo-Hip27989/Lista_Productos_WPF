@@ -15,7 +15,7 @@ namespace WPF_Productos.ViewModels
                 "1",
                 "Kilo(s)",
                 10.0f,
-                DateTime.Parse(DateTime.Now.ToString())
+                DateTime.Parse(DateTime.Now.ToShortDateString())
             );
             OnPropertyChanged("ProductosExcel_View");
             //OnPropertyChanged("Current__Producto");

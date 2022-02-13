@@ -1,5 +1,7 @@
 ﻿using Microsoft.Win32;
 
+using SpreadsheetLight;
+
 using System;
 using System.IO;
 using System.Windows;
@@ -25,7 +27,6 @@ namespace WPF_Productos.ViewModels
         private void MostrarProductosExcel()
         {
             LoadContenidoTabla();
-            OnPropertyChanged("ProductosExcel_View");
         }
         private void ReiniciarPantalla()
         {
@@ -35,6 +36,8 @@ namespace WPF_Productos.ViewModels
                 if (File.Exists(rutaDocumento))
                 {
                     RutaExcel = rutaDocumento;
+                    sl = new SLDocument(RutaExcel);
+                    MessageBox.Show("Se ha reiniciado la pantalla");
                 }
                 else
                 {

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
 using WPF_Productos.Core;
 using WPF_Productos.Models;
@@ -7,6 +8,7 @@ namespace WPF_Productos.ViewModels
 {
     public partial class ListaProductosViewModel : ViewModelBase
     {
+        public string tituloApp = "App Lista Productos";
         private string rutaExcel;
         private Producto current__Producto;
         private ProductosCollection productosExcel_View;
@@ -24,14 +26,19 @@ namespace WPF_Productos.ViewModels
         {
             get { return rutaExcel; }
             set {
-                if (!File.Exists(value))
+                try
                 {
-                    string mensaje = "\n";
-                    mensaje += "El archivo no existe " + "\n\n";
-                    mensaje += "La rutaExcel proporcionada fue: " + value + "\n\n";
-                    //MessageBox.Show(mensaje, "WPF_Productos", MessageBoxButton.OK, MessageBoxImage.Error, 0, 0);
+                    if (!File.Exists(value))
+                    {
+                        string mensaje = "\n No se encontró el archivo: \n\n Ruta: " + value + "\n\n";
+                        MessageBox.Show(mensaje, tituloApp);
+                    }
+                    else { rutaExcel = value; }
                 }
-                else { rutaExcel = value; }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Descripción del Error: \n\n" + e, tituloApp);
+                }
                 OnPropertyChanged("RutaExcel");
             }
         }

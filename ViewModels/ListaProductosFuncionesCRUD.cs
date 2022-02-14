@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Windows;
 using WPF_Productos.Core;
 using WPF_Productos.Models;
 
@@ -44,6 +45,7 @@ namespace WPF_Productos.ViewModels
         {
             UpdateContenidoTabla();
             OnPropertyChanged("ProductosExcel_View");
+            MessageBox.Show("Actualización Exitosa!!!", tituloApp);
         }
         #endregion
     }

@@ -1,5 +1,6 @@
 ﻿using SpreadsheetLight;
 using System;
+using System.Data;
 using System.IO;
 using System.Windows;
 using WPF_Productos.Core;
@@ -52,11 +53,10 @@ namespace WPF_Productos.ViewModels
                     countRow++;
                 }
                 sl.SaveAs(RutaExcel);
-                MessageBox.Show("Actualización Exitosa!!!");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Ocurrio una Excepción: " + ex.Message);
+                MessageBox.Show("Ocurrio una Excepción: " + ex.Message, tituloApp);
             }
         }
 

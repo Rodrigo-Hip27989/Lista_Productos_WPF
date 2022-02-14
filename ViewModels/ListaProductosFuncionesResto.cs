@@ -27,27 +27,14 @@ namespace WPF_Productos.ViewModels
         private void MostrarProductosExcel()
         {
             LoadContenidoTabla();
+            OnPropertyChanged("ProductosExcel_View");
         }
         private void ReiniciarPantalla()
         {
             ProductosExcel_View = new ProductosCollection();
-            try
-            {
-                if (File.Exists(rutaDocumento))
-                {
-                    RutaExcel = rutaDocumento;
-                    sl = new SLDocument(RutaExcel);
-                    MessageBox.Show("Se ha reiniciado la pantalla");
-                }
-                else
-                {
-                    MessageBox.Show("No se encontro la ruta seleccionada: \n" + RutaExcel.ToString());
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Descripción del Error: \n\n" + e, "App Lista Productos");
-            }
+            RutaExcel = rutaDocumento;
+            sl = new SLDocument(RutaExcel);
+            MessageBox.Show("Se ha reiniciado la pantalla", tituloApp);
         }
         #endregion
         public ListaProductosViewModel()

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.IO;
 using System.Windows.Input;
 using WPF_Productos.Core;
 using WPF_Productos.Models;
@@ -103,7 +104,7 @@ namespace WPF_Productos.ViewModels
         #region CONDICIONES PARA EJECUTAR COMMANDOS
         private bool PuedoMostrarProductos()
         {
-            return ((RutaExcel != null && RutaExcel != ""));
+            return ((File.Exists(RutaExcel)) && ((ProductosExcel_View.Count<1)));
         }
         private bool PuedoActualizarProductos()
         {

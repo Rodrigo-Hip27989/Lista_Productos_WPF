@@ -8,7 +8,6 @@ namespace WPF_Productos.ViewModels
 {
     public partial class ListaProductosViewModel : ViewModelBase
     {
-        public string tituloApp = "App Lista Productos";
         private string rutaExcel;
         private Producto current__Producto;
         private ProductosCollection productosExcel_View;

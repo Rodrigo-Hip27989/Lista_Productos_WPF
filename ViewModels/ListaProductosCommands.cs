@@ -108,7 +108,8 @@ namespace WPF_Productos.ViewModels
         }
         private bool PuedoActualizarProductos()
         {
-            return (ProductosExcel_View != null);
+            //(ProductosExcel_View.Count > 0) Esta verificación no es necesario si se lleva un registro de cambios en el documento de otra manera
+            return ((ProductosExcel_View != null) && (ProductosExcel_View.Count > 0));
         }
         private bool PuedoAgregarProducto()
         {

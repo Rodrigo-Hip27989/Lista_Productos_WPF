@@ -24,7 +24,6 @@ namespace WPF_Productos.ViewModels
                 ProductosExcel_View.Add(productoFilaActual);
                 countRow++;
             }
-            OnPropertyChanged("ProductosExcel_View");
         }
         private void ActualizarProductosExcel()
         {
@@ -49,13 +48,12 @@ namespace WPF_Productos.ViewModels
                     countRow++;
                 }
                 sl.SaveAs(RutaExcel);
+                MessageBox.Show("Actualización Exitosa!!!", tituloApp);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ocurrio una Excepción: " + ex.Message, tituloApp);
             }
-            OnPropertyChanged("ProductosExcel_View");
-            MessageBox.Show("Actualización Exitosa!!!", tituloApp);
         }
     }
 }

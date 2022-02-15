@@ -9,6 +9,17 @@ namespace WPF_Productos.ViewModels
     public partial class ListaProductosViewModel : ViewModelBase
     {
         private SLDocument sl;
+        private void MostrarProductosExcel()
+        {
+            LoadContenidoTabla();
+            OnPropertyChanged("ProductosExcel_View");
+        }
+        private void ActualizarProductosExcel()
+        {
+            UpdateContenidoTabla();
+            OnPropertyChanged("ProductosExcel_View");
+            MessageBox.Show("Actualización Exitosa!!!", tituloApp);
+        }
         public void LoadContenidoTabla()
         {
             Producto productoFilaActual;

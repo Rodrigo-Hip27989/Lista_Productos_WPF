@@ -1,11 +1,6 @@
 ﻿using Microsoft.Win32;
-
 using SpreadsheetLight;
-
-using System;
-using System.IO;
 using System.Windows;
-
 using WPF_Productos.Core;
 using WPF_Productos.Models;
 
@@ -24,11 +19,6 @@ namespace WPF_Productos.ViewModels
                 RutaExcel = selectorArchivo.FileName;
             }
         }
-        private void MostrarProductosExcel()
-        {
-            LoadContenidoTabla();
-            OnPropertyChanged("ProductosExcel_View");
-        }
         private void ReiniciarPantalla()
         {
             ProductosExcel_View = new ProductosCollection();
@@ -37,9 +27,5 @@ namespace WPF_Productos.ViewModels
             MessageBox.Show("Se ha reiniciado la pantalla", tituloApp);
         }
         #endregion
-        public ListaProductosViewModel()
-        {
-            ReiniciarPantalla();
-        }
     }
 }

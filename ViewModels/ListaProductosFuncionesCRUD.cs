@@ -16,19 +16,18 @@ namespace WPF_Productos.ViewModels
                 10.0f,
                 DateTime.Parse(DateTime.Now.ToShortDateString())
             );
-            OnPropertyChanged("ProductosExcel_View");
-            //OnPropertyChanged("Current__Producto");
+            //OnPropertyChanged("ProductosExcel_View");
         }
         private void AgregarProducto()
         {
-            Producto nuevoProducto = new Producto(
+            /*Producto nuevoProducto = new Producto(
                 Current__Producto.Nombre,
                 Current__Producto.Cantidad,
                 Current__Producto.Medida,
                 Current__Producto.Precio,
                 Current__Producto.Fecha
-            );
-            ProductosExcel_View.Add(nuevoProducto);
+            );*/
+            ProductosExcel_View.Add(Current__Producto);
             Current__Producto = ProductosExcel_View[ProductosExcel_View.Count - 1];
         }
         private void EliminarProducto()

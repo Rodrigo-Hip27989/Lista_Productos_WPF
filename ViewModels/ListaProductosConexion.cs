@@ -11,17 +11,6 @@ namespace WPF_Productos.ViewModels
         private SLDocument sl;
         private void MostrarProductosExcel()
         {
-            LoadContenidoTabla();
-            OnPropertyChanged("ProductosExcel_View");
-        }
-        private void ActualizarProductosExcel()
-        {
-            UpdateContenidoTabla();
-            OnPropertyChanged("ProductosExcel_View");
-            MessageBox.Show("Actualización Exitosa!!!", tituloApp);
-        }
-        public void LoadContenidoTabla()
-        {
             Producto productoFilaActual;
             int countRow = 2;
             while (!string.IsNullOrEmpty(sl.GetCellValueAsString(countRow, 1)))
@@ -35,8 +24,9 @@ namespace WPF_Productos.ViewModels
                 ProductosExcel_View.Add(productoFilaActual);
                 countRow++;
             }
+            OnPropertyChanged("ProductosExcel_View");
         }
-        public void UpdateContenidoTabla()
+        private void ActualizarProductosExcel()
         {
             try
             {
@@ -64,7 +54,8 @@ namespace WPF_Productos.ViewModels
             {
                 MessageBox.Show("Ocurrio una Excepción: " + ex.Message, tituloApp);
             }
+            OnPropertyChanged("ProductosExcel_View");
+            MessageBox.Show("Actualización Exitosa!!!", tituloApp);
         }
-
     }
 }

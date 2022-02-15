@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using SpreadsheetLight;
 using System.Windows;
 using WPF_Productos.Core;
 using WPF_Productos.Models;
@@ -23,7 +22,6 @@ namespace WPF_Productos.ViewModels
         {
             ProductosExcel_View = new ProductosCollection();
             RutaExcel = rutaDocumento;
-            sl = new SLDocument(RutaExcel);
             MessageBox.Show("Se ha reiniciado la pantalla", tituloApp);
         }
         #endregion

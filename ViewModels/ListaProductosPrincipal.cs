@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpreadsheetLight;
+using System;
 using System.IO;
 using System.Windows;
 using WPF_Productos.Core;
@@ -32,7 +33,7 @@ namespace WPF_Productos.ViewModels
                         string mensaje = "\n No se encontró el archivo: \n\n Ruta: " + value + "\n\n";
                         MessageBox.Show(mensaje, tituloApp);
                     }
-                    else { rutaExcel = value; }
+                    else { rutaExcel = value; sl = new SLDocument(RutaExcel); }
                 }
                 catch (Exception e)
                 {

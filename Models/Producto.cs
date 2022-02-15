@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace WPF_Productos.Models
 {
@@ -29,32 +30,115 @@ namespace WPF_Productos.Models
         public string Nombre
         {
             get { return nombre; }
-            set { nombre = value; }
+            set
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        MessageBox.Show("\nEl NOMBRE es nulo o vacio: \n\n");
+                    }
+                    else
+                    {
+                        nombre = value;
+                    }
+                }
+                catch (Exception e) { MessageBox.Show("\nError de asignación a NOMBRE: \n\n" + e.ToString()); }
+            }
         }
         public string Cantidad
         {
             get { return cantidad; }
-            set { cantidad = value; }
+            set
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        MessageBox.Show("La CANTIDAD es nulo o vacio: \n\n");
+                    }
+                    else
+                    {
+                        cantidad = value;
+                    }
+                }
+                catch (Exception e) { MessageBox.Show("\nError de asignación a CANTIDAD: \n\n" + e.ToString()); }
+            }
         }
         public string Medida
         {
             get { return medida; }
-            set { medida = value; }
+            set
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        MessageBox.Show("\nLa unidad de MEDIDA es nulo o vacio: \n\n");
+                    }
+                    else
+                    {
+                        medida = value;
+                    }
+                }
+                catch (Exception e) { MessageBox.Show("\nError de asignación a MEDIDA: \n\n" + e.ToString()); }
+            }
         }
         public double Precio
         {
             get { return precio; }
-            set { precio = value; }
+            set
+            {
+                try
+                {
+                    if(double.IsNaN(value))
+                    {
+                        MessageBox.Show("\nEl PRECIO no es un numero: \n\n");
+                    }
+                    else
+                    {
+                        precio = value;
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("\nError de asignación a PRECIO: \n\n" + e.ToString());
+                }
+            }
         }
         public DateTime Fecha
         {
             get { return fecha; }
-            set { fecha = value; }
+            set
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(value.ToString()))
+                    {
+                        MessageBox.Show("\nLa FECHA es nulo o vacio: \n\n");
+                    }
+                    else
+                    {
+                        fecha = value;
+                    }
+                    fecha = value;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("\nError de asignación a FECHA: \n\n" + e.ToString());
+                }
+            }
         }
 
         public override string ToString()
         {
-            return "\n - Nombre: " + Nombre + " - Cantidad: " + Cantidad + "\n - Medida: " + Medida + "\n  -  Precio" + Precio + "\n  -  Fecha" + fecha;
+            string tsObj = "";
+            tsObj += "\n - Nombre: " + Nombre;
+            tsObj += "\n - Cantidad: " + Cantidad;
+            tsObj += "\n - Medida: " + Medida;
+            tsObj += "\n - Precio" + Precio;
+            tsObj += "\n - Fecha" + fecha;
+            return tsObj;
         }
     }
 }

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using WPF_Productos.Core;
+using WPF_Productos.Models;
 
 namespace WPF_Productos.ViewModels
 {
@@ -13,7 +11,8 @@ namespace WPF_Productos.ViewModels
         public string tituloApp = "App Lista Productos";
         public ListaProductosViewModel()
         {
-            ReiniciarPantalla();
+            ProductosExcel_View = new ProductosCollection();
+            RutaExcel = rutaDocumento;
         }
     }
 }

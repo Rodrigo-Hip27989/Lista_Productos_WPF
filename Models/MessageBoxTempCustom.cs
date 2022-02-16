@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-
+//No se ha testeado por lo que esta clase aun no es funcional
 namespace WPF_Productos.Models
 {
     public class MessageBoxTempCustom

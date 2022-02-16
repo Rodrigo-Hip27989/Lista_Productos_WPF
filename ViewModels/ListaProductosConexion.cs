@@ -30,6 +30,7 @@ namespace WPF_Productos.ViewModels
             try
             {
                 SLDocument sl = new SLDocument();
+                sl.RenameWorksheet(SLDocument.DefaultFirstSheetName, "Despensa_Febrero");
                 //Cabeceras de la Tabla (Para el docuemento Excel)
                 sl.SetCellValue(1, 1, "Nombre");
                 sl.SetCellValue(1, 2, "Cantidad");

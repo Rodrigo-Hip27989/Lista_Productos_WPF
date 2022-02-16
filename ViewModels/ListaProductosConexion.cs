@@ -8,20 +8,20 @@ namespace WPF_Productos.ViewModels
 {
     public partial class ListaProductosViewModel : ViewModelBase
     {
-        private SLDocument sl;
         private void MostrarProductosExcel()
         {
-            Producto productoFilaActual;
+            SLDocument sl = new SLDocument(RutaExcel);
             int countRow = 2;
-            while (!string.IsNullOrEmpty(sl.GetCellValueAsString(countRow, 1)))
+            string primerColumna = "";
+            while (!string.IsNullOrEmpty(primerColumna = sl.GetCellValueAsString(countRow, 1)))
             {
-                productoFilaActual = new Producto();
-                productoFilaActual.Nombre = sl.GetCellValueAsString(countRow, 1);
-                productoFilaActual.Cantidad = sl.GetCellValueAsString(countRow, 2);
-                productoFilaActual.Medida = sl.GetCellValueAsString(countRow, 3);
-                productoFilaActual.Precio = sl.GetCellValueAsDouble(countRow, 4);
-                productoFilaActual.Fecha = sl.GetCellValueAsDateTime(countRow, 5);
-                ProductosExcel_View.Add(productoFilaActual);
+                ProductosExcel_View.Add(new Producto(
+                    primerColumna,
+                    sl.GetCellValueAsString(countRow, 2),
+                    sl.GetCellValueAsString(countRow, 3),
+                    sl.GetCellValueAsDouble(countRow, 4),
+                    sl.GetCellValueAsDateTime(countRow, 5)
+                ));
                 countRow++;
             }
         }
@@ -29,7 +29,7 @@ namespace WPF_Productos.ViewModels
         {
             try
             {
-                sl = new SLDocument();
+                SLDocument sl = new SLDocument();
                 //Cabeceras de la Tabla (Para el docuemento Excel)
                 sl.SetCellValue(1, 1, "Nombre");
                 sl.SetCellValue(1, 2, "Cantidad");

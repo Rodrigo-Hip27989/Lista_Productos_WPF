@@ -33,7 +33,7 @@ namespace WPF_Productos.ViewModels
                         string mensaje = "\n No se encontró el archivo: \n\n Ruta: " + value + "\n\n";
                         MessageBox.Show(mensaje, tituloApp);
                     }
-                    else { rutaExcel = value; sl = new SLDocument(RutaExcel); }
+                    else { rutaExcel = value; }
                 }
                 catch (Exception e)
                 {

@@ -12,25 +12,23 @@ namespace WPF_Productos.ViewModels
 {
     public partial class ListaProductosViewModel : ViewModelBase
     {
-        SLDocument sl;
+        SLDocument slOriginal;
         private string miWorksheetDefault = "Despensa_Febrero";
         private void MostrarProductosExcel()
         {
-            sl = new SLDocument(RutaExcel, miWorksheetDefault);
-            //sl1.SelectWorksheet(miWorksheetDefault);
+            slOriginal = new SLDocument(RutaExcel, miWorksheetDefault);
 
             int startColumn = 1, startRow = 1;
             int countRow = startRow + 1;
 
-            string primerColumna = "";
-            while (!string.IsNullOrEmpty(primerColumna = sl.GetCellValueAsString(countRow, startColumn)))
+            while (!string.IsNullOrEmpty(slOriginal.GetCellValueAsString(countRow, startColumn)))
             {
                 ProductosExcel_View.Add(new Producto(
-                    primerColumna,
-                    sl.GetCellValueAsString(countRow, (startColumn + 1)),
-                    sl.GetCellValueAsString(countRow, (startColumn + 2)),
-                    sl.GetCellValueAsDouble(countRow, (startColumn + 3)),
-                    sl.GetCellValueAsDateTime(countRow, (startColumn + 4))
+                    slOriginal.GetCellValueAsString(countRow, startColumn),
+                    slOriginal.GetCellValueAsString(countRow, (startColumn + 1)),
+                    slOriginal.GetCellValueAsString(countRow, (startColumn + 2)),
+                    slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3)),
+                    slOriginal.GetCellValueAsDateTime(countRow, (startColumn + 4))
                 ));
                 countRow++;
             }
@@ -43,54 +41,58 @@ namespace WPF_Productos.ViewModels
                 slCopia.RenameWorksheet(SLDocument.DefaultFirstSheetName, miWorksheetDefault);
 
                 int startColumn = 1, startRow = 1;
-                int countColumn = startColumn, countRow = startRow + 1;
 
-                AgregarEstilosColumnasProducto(slCopia, miWorksheetDefault, startColumn);
-                AgregarEstilosCabecerasProducto(slCopia, miWorksheetDefault, startColumn, startRow);
+                AgregarProductosEnDataGridAExcel(slCopia, miWorksheetDefault, startColumn, startRow);
+                MessageBox.Show("Se ha actualizo " + slCopia.GetCurrentWorksheetName() + "!!!", tituloApp);
 
-                foreach (Producto productoFilaActual in productosExcel_View)
-                {
-                    slCopia.SetCellValue(countRow, startColumn, productoFilaActual.Nombre);
-                    slCopia.SetCellValue(countRow, (startColumn + 1), productoFilaActual.Cantidad);
-                    slCopia.SetCellValue(countRow, (startColumn + 2), productoFilaActual.Medida);
-                    slCopia.SetCellValue(countRow, (startColumn + 3), productoFilaActual.Precio);
-                    slCopia.SetCellValue(countRow, (startColumn + 4), productoFilaActual.Fecha);
-                    countRow++;
-                }
-
-                MessageBox.Show("Actualización Despensa Febrero Exitosa!!!", tituloApp);
-
-                startColumn = 1;
-                startRow = 1;
-                countRow = startRow + 1;
-
-                slCopia.AddWorksheet("Despensa_Enero");
-                sl.SelectWorksheet("Despensa_Enero");
-                AgregarEstilosColumnasProducto(slCopia, slCopia.GetCurrentWorksheetName(), startColumn);
-                AgregarEstilosCabecerasProducto(slCopia, slCopia.GetCurrentWorksheetName(), startColumn, startRow);
-
-                string primerColumna = "";
-                while (!string.IsNullOrEmpty(primerColumna = sl.GetCellValueAsString(countRow, startColumn)))
-                {
-                    slCopia.SetCellValue(countRow, startColumn, primerColumna);
-                    slCopia.SetCellValue(countRow, (startColumn + 1), sl.GetCellValueAsString(countRow, (startColumn + 1)));
-                    slCopia.SetCellValue(countRow, (startColumn + 2), sl.GetCellValueAsString(countRow, (startColumn + 2)));
-                    slCopia.SetCellValue(countRow, (startColumn + 3), sl.GetCellValueAsDouble(countRow, (startColumn + 3)));
-                    slCopia.SetCellValue(countRow, (startColumn + 4), sl.GetCellValueAsDateTime(countRow, (startColumn + 4)));
-                    countRow++;
-                }
+                CopiarUnaHojaNoSeleccionada(slCopia, "Despensa_Enero", startColumn, startRow);
+                MessageBox.Show("Se ha actualizo " + slCopia.GetCurrentWorksheetName() + "!!!", tituloApp);
 
                 slCopia.SaveAs(RutaExcel);
-                MessageBox.Show("Actualización Despensa Enero Exitosa!!!", tituloApp);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ocurrio una Excepción: " + ex.Message, tituloApp);
             }
         }
-        public void AgregarEstilosCabecerasProducto(SLDocument slPtr, string selectWorksheet, int startColumn, int startRow)
+        public void AgregarProductosEnDataGridAExcel(SLDocument slPtr, string nombreWorksheet, int startColumn, int startRow)
         {
-            slPtr.SelectWorksheet(selectWorksheet);
+            slPtr.SelectWorksheet(nombreWorksheet);
+            AgregarEstilosColumnasProducto(slPtr, startColumn);
+            AgregarEstilosCabecerasProducto(slPtr, startColumn, startRow);
+
+            int countRow = startRow + 1;
+            foreach (Producto productoFilaActual in productosExcel_View)
+            {
+                slPtr.SetCellValue(countRow, startColumn, productoFilaActual.Nombre);
+                slPtr.SetCellValue(countRow, (startColumn + 1), productoFilaActual.Cantidad);
+                slPtr.SetCellValue(countRow, (startColumn + 2), productoFilaActual.Medida);
+                slPtr.SetCellValue(countRow, (startColumn + 3), productoFilaActual.Precio);
+                slPtr.SetCellValue(countRow, (startColumn + 4), productoFilaActual.Fecha);
+                countRow++;
+            }
+        }
+        public void CopiarUnaHojaNoSeleccionada(SLDocument slCopia, string nombreWorksheet, int startColumn, int startRow)
+        {
+            int countRow = startRow + 1;
+            slCopia.AddWorksheet(nombreWorksheet);
+            AgregarEstilosColumnasProducto(slCopia, startColumn);
+            AgregarEstilosCabecerasProducto(slCopia, startColumn, startRow);
+            slOriginal.SelectWorksheet(nombreWorksheet);
+
+            while (!string.IsNullOrEmpty(slOriginal.GetCellValueAsString(countRow, startColumn)))
+            {
+                slCopia.SetCellValue(countRow, startColumn, slOriginal.GetCellValueAsString(countRow, startColumn));
+                slCopia.SetCellValue(countRow, (startColumn + 1), slOriginal.GetCellValueAsString(countRow, (startColumn + 1)));
+                slCopia.SetCellValue(countRow, (startColumn + 2), slOriginal.GetCellValueAsString(countRow, (startColumn + 2)));
+                slCopia.SetCellValue(countRow, (startColumn + 3), slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3)));
+                slCopia.SetCellValue(countRow, (startColumn + 4), slOriginal.GetCellValueAsDateTime(countRow, (startColumn + 4)));
+                countRow++;
+            }
+        }
+        public void AgregarEstilosCabecerasProducto(SLDocument slPtr, int startColumn, int startRow)
+        {
+            //slPtr.SelectWorksheet(selectWorksheet);
             string[] misHeaders = { "Nombre", "Cantidad", "Medida", "Precio", "Fecha" };
             int[] misColumnWidth = { 25, 10, 10, 10, 20 };
             SLStyle tempSLStyle = null;
@@ -104,9 +106,9 @@ namespace WPF_Productos.ViewModels
                 slPtr.SetCellValue(startRow, x, misHeaders[x - 1]);
             }
         }
-        public void AgregarEstilosColumnasProducto(SLDocument slPtr, string selectWorksheet, int startColumn)
+        public void AgregarEstilosColumnasProducto(SLDocument slPtr, int startColumn)
         {
-            slPtr.SelectWorksheet(selectWorksheet);
+            //slPtr.SelectWorksheet(selectWorksheet);
             string[] misFormatCode = { "@", "# ??/??", "@", "[$$-80A]#,##0.00;-[$$-80A]#,##0.00", "d mmm yyyy" };
             HorizontalAlignmentValues[] misHAligments = { HorizontalAlignmentValues.Left, HorizontalAlignmentValues.Left, HorizontalAlignmentValues.Left, HorizontalAlignmentValues.Right, HorizontalAlignmentValues.Right };
 

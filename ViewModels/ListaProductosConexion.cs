@@ -106,11 +106,17 @@ namespace WPF_Productos.ViewModels
             int[] misColumnWidth = { 25, 10, 10, 10, 20 };
             SLStyle tempSLStyle = null;
 
+            SLTable tbl = slPtr.CreateTable("A1", "E1");
+            tbl.SetTableStyle(SLTableStyleTypeValues.Medium9);
+            slPtr.InsertTable(tbl);
+
+            tempSLStyle = slPtr.CreateStyle();
+            tempSLStyle.SetFontBold(true);
+            tempSLStyle.Fill.SetPattern(PatternValues.Solid, System.Drawing.Color.DarkGreen, System.Drawing.Color.DarkSalmon);
+            slPtr.SetCellStyle("A1", "E1", tempSLStyle);
+
             for (int x = startColumn; x <= misHeaders.Length; x++)
             {
-                tempSLStyle = slPtr.CreateStyle();
-                tempSLStyle.SetFontBold(true);
-                slPtr.SetRowStyle(startRow, tempSLStyle);
                 slPtr.SetColumnWidth(x, misColumnWidth[x - 1]);
                 slPtr.SetCellValue(startRow, x, misHeaders[x - 1]);
             }

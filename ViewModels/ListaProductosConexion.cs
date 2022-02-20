@@ -18,10 +18,11 @@ namespace WPF_Productos.ViewModels
         {
             slOriginal = new SLDocument(RutaExcel, miWorksheetDefault);
 
-            int startColumn = 1, startRow = 1;
-            int countRow = startRow + 1;
+            int startColumn = 1, startRow = 2; //Sin contar las cabeceras
+            int countRow = startRow;
+            int numeroProductos = getNumeroProductosTabla(slOriginal, startColumn, startRow);
 
-            while (!string.IsNullOrEmpty(slOriginal.GetCellValueAsString(countRow, startColumn)))
+            for (countRow = (startRow); countRow < (numeroProductos + startRow); countRow++)
             {
                 ProductosExcel_View.Add(new Producto(
                     slOriginal.GetCellValueAsString(countRow, startColumn),
@@ -30,8 +31,8 @@ namespace WPF_Productos.ViewModels
                     slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3)),
                     slOriginal.GetCellValueAsDateTime(countRow, (startColumn + 4))
                 ));
-                countRow++;
             }
+            MessageBox.Show("La cantidad de columnas son: "+ numeroProductos);
         }
         private void ActualizarProductosExcel()
         {
@@ -40,7 +41,7 @@ namespace WPF_Productos.ViewModels
                 SLDocument slCopia = new SLDocument();
                 slCopia.RenameWorksheet(SLDocument.DefaultFirstSheetName, miWorksheetDefault);
 
-                int startColumn = 1, startRow = 1;
+                int startColumn = 1, startRow = 2;
                 AgregarProductosEnDataGridAExcel(slCopia, miWorksheetDefault, startColumn, startRow);
                 MessageBox.Show("Se ha actualizo " + slCopia.GetCurrentWorksheetName() + "!!!", tituloApp);
 
@@ -67,10 +68,10 @@ namespace WPF_Productos.ViewModels
         public void AgregarProductosEnDataGridAExcel(SLDocument slPtr, string nombreWorksheet, int startColumn, int startRow)
         {
             slPtr.SelectWorksheet(nombreWorksheet);
-            AgregarEstilosColumnasProducto(slPtr, startColumn);
-            AgregarEstilosCabecerasProducto(slPtr, startColumn, startRow);
+            AgregarEstilosColumnaEnExcel(slPtr, startColumn);
+            AgregarEstilosCabecerasEnExcel(slPtr, startColumn, startRow);
 
-            int countRow = startRow + 1;
+            int countRow = startRow;
             foreach (Producto productoFilaActual in productosExcel_View)
             {
                 slPtr.SetCellValue(countRow, startColumn, productoFilaActual.Nombre);
@@ -83,23 +84,30 @@ namespace WPF_Productos.ViewModels
         }
         public void CopiarUnaHojaNoSeleccionada(SLDocument slCopia, string nombreWorksheet, int startColumn, int startRow)
         {
-            int countRow = startRow + 1;
+            int countRow = startRow;
             slCopia.AddWorksheet(nombreWorksheet);
-            AgregarEstilosColumnasProducto(slCopia, startColumn);
-            AgregarEstilosCabecerasProducto(slCopia, startColumn, startRow);
+            AgregarEstilosColumnaEnExcel(slCopia, startColumn);
+
+            AgregarEstilosCabecerasEnExcel(slCopia, startColumn, startRow);
             slOriginal.SelectWorksheet(nombreWorksheet);
 
-            while (!string.IsNullOrEmpty(slOriginal.GetCellValueAsString(countRow, startColumn)))
+            int numeroProductos = getNumeroProductosTabla(slOriginal, startColumn, startRow);
+            for (countRow = (startRow); countRow < (numeroProductos + startRow); countRow++)
             {
                 slCopia.SetCellValue(countRow, startColumn, slOriginal.GetCellValueAsString(countRow, startColumn));
                 slCopia.SetCellValue(countRow, (startColumn + 1), slOriginal.GetCellValueAsString(countRow, (startColumn + 1)));
                 slCopia.SetCellValue(countRow, (startColumn + 2), slOriginal.GetCellValueAsString(countRow, (startColumn + 2)));
                 slCopia.SetCellValue(countRow, (startColumn + 3), slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3)));
                 slCopia.SetCellValue(countRow, (startColumn + 4), slOriginal.GetCellValueAsDateTime(countRow, (startColumn + 4)));
-                countRow++;
             }
         }
-        public void AgregarEstilosCabecerasProducto(SLDocument slPtr, int startColumn, int startRow)
+        private int getNumeroProductosTabla(SLDocument slPtr, int startColumn, int startRow)
+        {
+            int countRow = startRow; //El primer dato son las cabeceras y se omite
+            while (!string.IsNullOrEmpty(slPtr.GetCellValueAsString(countRow, startColumn))) { countRow++; }
+            return countRow - startRow;
+        }
+        public void AgregarEstilosCabecerasEnExcel(SLDocument slPtr, int startColumn, int startRow)
         {
             //slPtr.SelectWorksheet(selectWorksheet);
             string[] misHeaders = { "Nombre", "Cantidad", "Medida", "Precio", "Fecha" };
@@ -112,16 +120,16 @@ namespace WPF_Productos.ViewModels
 
             tempSLStyle = slPtr.CreateStyle();
             tempSLStyle.SetFontBold(true);
-            tempSLStyle.Fill.SetPattern(PatternValues.Solid, System.Drawing.Color.DarkGreen, System.Drawing.Color.DarkSalmon);
+            tempSLStyle.Fill.SetPattern(PatternValues.Solid, System.Drawing.Color.LightSeaGreen, System.Drawing.Color.DarkSalmon);
             slPtr.SetCellStyle("A1", "E1", tempSLStyle);
 
             for (int x = startColumn; x <= misHeaders.Length; x++)
             {
                 slPtr.SetColumnWidth(x, misColumnWidth[x - 1]);
-                slPtr.SetCellValue(startRow, x, misHeaders[x - 1]);
+                slPtr.SetCellValue((startRow - 1), x, misHeaders[x - 1]);
             }
         }
-        public void AgregarEstilosColumnasProducto(SLDocument slPtr, int startColumn)
+        public void AgregarEstilosColumnaEnExcel(SLDocument slPtr, int startColumn)
         {
             //slPtr.SelectWorksheet(selectWorksheet);
             string[] misFormatCode = { "@", "# ??/??", "@", "[$$-80A]#,##0.00;-[$$-80A]#,##0.00", "d mmm yyyy" };

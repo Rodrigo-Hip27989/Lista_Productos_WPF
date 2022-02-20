@@ -13,16 +13,16 @@ namespace WPF_Productos.ViewModels
     public partial class ListaProductosViewModel : ViewModelBase
     {
         SLDocument slOriginal;
+        private string miWorksheetResumen = "Resumen_2022";
         private string miWorksheetDefault = "2022 - 02 - Quincena 1";
         private void MostrarProductosExcel()
         {
             slOriginal = new SLDocument(RutaExcel, miWorksheetDefault);
 
             int startColumn = 1, startRow = 2; //Sin contar las cabeceras
-            int countRow = startRow;
             int numeroProductos = getNumeroProductosTabla(slOriginal, startColumn, startRow);
 
-            for (countRow = (startRow); countRow < (numeroProductos + startRow); countRow++)
+            for (int countRow = startRow; countRow < (numeroProductos + startRow); countRow++)
             {
                 ProductosExcel_View.Add(new Producto(
                     slOriginal.GetCellValueAsString(countRow, startColumn),
@@ -32,7 +32,7 @@ namespace WPF_Productos.ViewModels
                     slOriginal.GetCellValueAsDateTime(countRow, (startColumn + 4))
                 ));
             }
-            MessageBox.Show("La cantidad de columnas son: "+ numeroProductos);
+//            MessageBox.Show("La cantidad de columnas son: "+ numeroProductos);
         }
         private void ActualizarProductosExcel()
         {
@@ -43,21 +43,24 @@ namespace WPF_Productos.ViewModels
 
                 int startColumn = 1, startRow = 2;
                 AgregarProductosEnDataGridAExcel(slCopia, miWorksheetDefault, startColumn, startRow);
-                MessageBox.Show("Se ha actualizo " + slCopia.GetCurrentWorksheetName() + "!!!", tituloApp);
 
                 List<string> hojasRestantes = slOriginal.GetWorksheetNames();
                 hojasRestantes.Sort();
+                hojasRestantes.Remove(miWorksheetDefault);
+                hojasRestantes.Remove(miWorksheetResumen);
+
                 foreach (string hojaR in hojasRestantes)
                 {
-                    if (hojaR != miWorksheetDefault)
-                    {
-                        CopiarUnaHojaNoSeleccionada(slCopia, hojaR, startColumn, startRow);
-                        MessageBox.Show("Se ha actualizo " + slCopia.GetCurrentWorksheetName() + "!!!", tituloApp);
-                    }
+                    CopiarHojaNoSeleccionadaProductos(slCopia, hojaR, startColumn, startRow);
                 }
+
+                hojasRestantes.Add(miWorksheetDefault);
+                hojasRestantes.Sort();
                 slCopia.MoveWorksheet(miWorksheetDefault, hojasRestantes.IndexOf(miWorksheetDefault));
+
                 slCopia.SelectWorksheet(miWorksheetDefault);
 
+                MessageBox.Show("Se ha actualizo el excel correctamente !!!", tituloApp);
                 slCopia.SaveAs(RutaExcel);
             }
             catch (Exception ex)
@@ -82,17 +85,16 @@ namespace WPF_Productos.ViewModels
                 countRow++;
             }
         }
-        public void CopiarUnaHojaNoSeleccionada(SLDocument slCopia, string nombreWorksheet, int startColumn, int startRow)
+        public void CopiarHojaNoSeleccionadaProductos(SLDocument slCopia, string nombreWorksheet, int startColumn, int startRow)
         {
             int countRow = startRow;
             slCopia.AddWorksheet(nombreWorksheet);
             AgregarEstilosColumnaEnExcel(slCopia, startColumn);
-
             AgregarEstilosCabecerasEnExcel(slCopia, startColumn, startRow);
             slOriginal.SelectWorksheet(nombreWorksheet);
 
             int numeroProductos = getNumeroProductosTabla(slOriginal, startColumn, startRow);
-            for (countRow = (startRow); countRow < (numeroProductos + startRow); countRow++)
+            for (countRow = startRow; countRow < (numeroProductos + startRow); countRow++)
             {
                 slCopia.SetCellValue(countRow, startColumn, slOriginal.GetCellValueAsString(countRow, startColumn));
                 slCopia.SetCellValue(countRow, (startColumn + 1), slOriginal.GetCellValueAsString(countRow, (startColumn + 1)));
@@ -109,39 +111,37 @@ namespace WPF_Productos.ViewModels
         }
         public void AgregarEstilosCabecerasEnExcel(SLDocument slPtr, int startColumn, int startRow)
         {
-            //slPtr.SelectWorksheet(selectWorksheet);
             string[] misHeaders = { "Nombre", "Cantidad", "Medida", "Precio", "Fecha" };
             int[] misColumnWidth = { 25, 10, 10, 10, 20 };
-            SLStyle tempSLStyle = null;
 
             SLTable tbl = slPtr.CreateTable("A1", "E1");
             tbl.SetTableStyle(SLTableStyleTypeValues.Medium9);
             slPtr.InsertTable(tbl);
 
+            SLStyle tempSLStyle = null;
             tempSLStyle = slPtr.CreateStyle();
             tempSLStyle.SetFontBold(true);
             tempSLStyle.Fill.SetPattern(PatternValues.Solid, System.Drawing.Color.LightSeaGreen, System.Drawing.Color.DarkSalmon);
             slPtr.SetCellStyle("A1", "E1", tempSLStyle);
 
-            for (int x = startColumn; x <= misHeaders.Length; x++)
+            for (int countRow = startColumn; countRow <= misHeaders.Length; countRow++)
             {
-                slPtr.SetColumnWidth(x, misColumnWidth[x - 1]);
-                slPtr.SetCellValue((startRow - 1), x, misHeaders[x - 1]);
+                slPtr.SetColumnWidth(countRow, misColumnWidth[countRow - 1]);
+                slPtr.SetCellValue((startRow - 1), countRow, misHeaders[countRow - 1]);
             }
         }
         public void AgregarEstilosColumnaEnExcel(SLDocument slPtr, int startColumn)
         {
-            //slPtr.SelectWorksheet(selectWorksheet);
             string[] misFormatCode = { "@", "# ??/??", "@", "[$$-80A]#,##0.00;-[$$-80A]#,##0.00", "d mmm yyyy" };
             HorizontalAlignmentValues[] misHAligments = { HorizontalAlignmentValues.Left, HorizontalAlignmentValues.Left, HorizontalAlignmentValues.Left, HorizontalAlignmentValues.Right, HorizontalAlignmentValues.Right };
 
             SLStyle tempSLStyle = null;
-            for (int x = startColumn; x <= misFormatCode.Length; x++)
+            for (int countRow = startColumn; countRow <= misFormatCode.Length; countRow++)
             {
                 tempSLStyle = slPtr.CreateStyle();
-                tempSLStyle.FormatCode = misFormatCode[x - 1];
-                tempSLStyle.Alignment.Horizontal = misHAligments[x - 1];
-                slPtr.SetColumnStyle(x, tempSLStyle);
+                tempSLStyle.FormatCode = misFormatCode[countRow - 1];
+                tempSLStyle.Alignment.Horizontal = misHAligments[countRow - 1];
+                slPtr.SetColumnStyle(countRow, tempSLStyle);
             }
         }
     }

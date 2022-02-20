@@ -13,7 +13,7 @@ namespace WPF_Productos.ViewModels
     public partial class ListaProductosViewModel : ViewModelBase
     {
         SLDocument slOriginal;
-        private string miWorksheetDefault = "Despensa_Febrero";
+        private string miWorksheetDefault = "2022 - 02 - Quincena 1";
         private void MostrarProductosExcel()
         {
             slOriginal = new SLDocument(RutaExcel, miWorksheetDefault);
@@ -41,12 +41,21 @@ namespace WPF_Productos.ViewModels
                 slCopia.RenameWorksheet(SLDocument.DefaultFirstSheetName, miWorksheetDefault);
 
                 int startColumn = 1, startRow = 1;
-
                 AgregarProductosEnDataGridAExcel(slCopia, miWorksheetDefault, startColumn, startRow);
                 MessageBox.Show("Se ha actualizo " + slCopia.GetCurrentWorksheetName() + "!!!", tituloApp);
 
-                CopiarUnaHojaNoSeleccionada(slCopia, "Despensa_Enero", startColumn, startRow);
-                MessageBox.Show("Se ha actualizo " + slCopia.GetCurrentWorksheetName() + "!!!", tituloApp);
+                List<string> hojasRestantes = slOriginal.GetWorksheetNames();
+                hojasRestantes.Sort();
+                foreach (string hojaR in hojasRestantes)
+                {
+                    if (hojaR != miWorksheetDefault)
+                    {
+                        CopiarUnaHojaNoSeleccionada(slCopia, hojaR, startColumn, startRow);
+                        MessageBox.Show("Se ha actualizo " + slCopia.GetCurrentWorksheetName() + "!!!", tituloApp);
+                    }
+                }
+                slCopia.MoveWorksheet(miWorksheetDefault, hojasRestantes.IndexOf(miWorksheetDefault));
+                slCopia.SelectWorksheet(miWorksheetDefault);
 
                 slCopia.SaveAs(RutaExcel);
             }

@@ -8,6 +8,7 @@ namespace WPF_Productos.ViewModels
     {
         private static string rutaDelProyecto = Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()).ToString()).ToString();
         private static string rutaDocumento = File.ReadAllText(rutaDelProyecto + @"\RutaDocumentoExcel.txt");
+        private string nombreHojaExcelDefault = File.ReadAllText(rutaDelProyecto + @"\NombrePestaniaExcel.txt");
         public string tituloApp = "App Lista Productos";
         public ListaProductosViewModel()
         {

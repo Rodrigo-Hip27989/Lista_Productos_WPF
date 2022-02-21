@@ -13,12 +13,12 @@ namespace WPF_Productos.ViewModels
     public partial class ListaProductosViewModel : ViewModelBase
     {
         SLDocument slOriginal;
-        private string miWorksheetDefault = "2022 - S1";
+
         private void MostrarProductosExcel()
         {
             try
             {
-                slOriginal = new SLDocument(RutaExcel, miWorksheetDefault);
+                slOriginal = new SLDocument(RutaExcel, nombreHojaExcelDefault);
 
                 int startColumn = 1, startRow = 2; //Sin contar las cabeceras
                 int numeroProductos = getNumeroProductosTabla(slOriginal, startColumn, startRow);
@@ -46,24 +46,24 @@ namespace WPF_Productos.ViewModels
             try
             {
                 SLDocument slCopia = new SLDocument();
-                slCopia.RenameWorksheet(SLDocument.DefaultFirstSheetName, miWorksheetDefault);
+                slCopia.RenameWorksheet(SLDocument.DefaultFirstSheetName, nombreHojaExcelDefault);
 
                 int startColumn = 1, startRow = 2;
-                AgregarProductosEnDataGridAExcel(slCopia, miWorksheetDefault, startColumn, startRow);
+                AgregarProductosEnDataGridAExcel(slCopia, nombreHojaExcelDefault, startColumn, startRow);
 
                 List<string> hojasRestantes = slOriginal.GetWorksheetNames();
                 hojasRestantes.Sort();
-                hojasRestantes.Remove(miWorksheetDefault);
+                hojasRestantes.Remove(nombreHojaExcelDefault);
 
                 foreach (string hojaR in hojasRestantes)
                 {
                     CopiarHojaNoSeleccionadaProductos(slCopia, hojaR, startColumn, startRow);
                 }
 
-                hojasRestantes.Add(miWorksheetDefault);
+                hojasRestantes.Add(nombreHojaExcelDefault);
                 hojasRestantes.Sort();
-                slCopia.MoveWorksheet(miWorksheetDefault, hojasRestantes.IndexOf(miWorksheetDefault));
-                slCopia.SelectWorksheet(miWorksheetDefault);
+                slCopia.MoveWorksheet(nombreHojaExcelDefault, hojasRestantes.IndexOf(nombreHojaExcelDefault));
+                slCopia.SelectWorksheet(nombreHojaExcelDefault);
 
                 MessageBox.Show("Se ha actualizo el excel correctamente !!!", tituloApp);
                 slCopia.SaveAs(RutaExcel);

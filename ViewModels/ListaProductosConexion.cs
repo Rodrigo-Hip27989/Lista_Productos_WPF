@@ -13,7 +13,7 @@ namespace WPF_Productos.ViewModels
     public partial class ListaProductosViewModel : ViewModelBase
     {
         SLDocument slOriginal;
-        private string miWorksheetDefault = "2022 - 02 - Quincena 1";
+        private string miWorksheetDefault = "2022 - S1";
         private void MostrarProductosExcel()
         {
             slOriginal = new SLDocument(RutaExcel, miWorksheetDefault);
@@ -27,10 +27,11 @@ namespace WPF_Productos.ViewModels
                     slOriginal.GetCellValueAsString(countRow, startColumn),
                     slOriginal.GetCellValueAsString(countRow, (startColumn + 1)),
                     slOriginal.GetCellValueAsString(countRow, (startColumn + 2)),
-                    slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3)),
+                    (sumaPrecios += slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3))),
                     slOriginal.GetCellValueAsDateTime(countRow, (startColumn + 4))
                 ));
             }
+            OnPropertyChanged("SumaPrecios");
 //            MessageBox.Show("La cantidad de columnas son: "+ numeroProductos);
         }
         private void ActualizarProductosExcel()

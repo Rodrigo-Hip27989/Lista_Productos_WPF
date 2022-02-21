@@ -13,6 +13,7 @@ namespace WPF_Productos.ViewModels
         {
             ProductosExcel_View = new ProductosCollection();
             RutaExcel = rutaDocumento;
+            SumaPrecios = 0;
         }
     }
 }

@@ -12,6 +12,12 @@ namespace WPF_Productos.ViewModels
         private string rutaExcel;
         private Producto current__Producto;
         private ProductosCollection productosExcel_View;
+        private double sumaPrecios;
+        public double SumaPrecios
+        {
+            get { return sumaPrecios; }
+            set { sumaPrecios = value; OnPropertyChanged("SumaPrecios"); }
+        }
         public Producto Current__Producto
         {
             get { return current__Producto; }

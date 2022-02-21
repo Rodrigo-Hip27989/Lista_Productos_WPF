@@ -55,7 +55,8 @@ namespace WPF_Productos.Models
                 {
                     if (string.IsNullOrEmpty(value))
                     {
-                        MessageBox.Show("La CANTIDAD es nulo o vacio: \n\n");
+                        //MessageBox.Show("La CANTIDAD es nulo o vacio: \n\n");
+                        cantidad = ".";
                     }
                     else
                     {
@@ -74,7 +75,8 @@ namespace WPF_Productos.Models
                 {
                     if (string.IsNullOrEmpty(value))
                     {
-                        MessageBox.Show("\nLa unidad de MEDIDA es nulo o vacio: \n\n");
+                        //MessageBox.Show("\nLa unidad de MEDIDA es nulo o vacio: \n\n");
+                        medida = ".";
                     }
                     else
                     {
@@ -94,6 +96,7 @@ namespace WPF_Productos.Models
                     if(double.IsNaN(value))
                     {
                         MessageBox.Show("\nEl PRECIO no es un numero: \n\n");
+                        precio = 0;
                     }
                     else
                     {

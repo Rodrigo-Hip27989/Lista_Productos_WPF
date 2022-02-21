@@ -16,24 +16,30 @@ namespace WPF_Productos.ViewModels
         private string miWorksheetDefault = "2022 - S1";
         private void MostrarProductosExcel()
         {
-            slOriginal = new SLDocument(RutaExcel, miWorksheetDefault);
-
-            int startColumn = 1, startRow = 2; //Sin contar las cabeceras
-            int numeroProductos = getNumeroProductosTabla(slOriginal, startColumn, startRow);
-
-            for (int countRow = startRow; countRow < (numeroProductos + startRow); countRow++)
+            try
             {
-                sumaPrecios += slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3));
-                ProductosExcel_View.Add(new Producto(
-                    slOriginal.GetCellValueAsString(countRow, startColumn),
-                    slOriginal.GetCellValueAsString(countRow, (startColumn + 1)),
-                    slOriginal.GetCellValueAsString(countRow, (startColumn + 2)),
-                    slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3)),
-                    slOriginal.GetCellValueAsDateTime(countRow, (startColumn + 4))
-                ));
+                slOriginal = new SLDocument(RutaExcel, miWorksheetDefault);
+
+                int startColumn = 1, startRow = 2; //Sin contar las cabeceras
+                int numeroProductos = getNumeroProductosTabla(slOriginal, startColumn, startRow);
+
+                for (int countRow = startRow; countRow < (numeroProductos + startRow); countRow++)
+                {
+                    sumaPrecios += slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3));
+                    ProductosExcel_View.Add(new Producto(
+                        slOriginal.GetCellValueAsString(countRow, startColumn),
+                        slOriginal.GetCellValueAsString(countRow, (startColumn + 1)),
+                        slOriginal.GetCellValueAsString(countRow, (startColumn + 2)),
+                        slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3)),
+                        slOriginal.GetCellValueAsDateTime(countRow, (startColumn + 4))
+                    ));
+                }
+                OnPropertyChanged("SumaPrecios");
             }
-            OnPropertyChanged("SumaPrecios");
-//            MessageBox.Show("La cantidad de columnas son: "+ numeroProductos);
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrio una Excepción: " + ex.Message, tituloApp);
+            }
         }
         private void ActualizarProductosExcel()
         {
@@ -111,7 +117,7 @@ namespace WPF_Productos.ViewModels
         public void AgregarEstilosCabecerasEnExcel(SLDocument slPtr, int startColumn, int startRow)
         {
             string[] misHeaders = { "Nombre", "Cantidad", "Medida", "Precio", "Fecha" };
-            int[] misColumnWidth = { 25, 10, 10, 10, 20 };
+            int[] misColumnWidth = { 28, 14, 14, 14, 21 };
 
             SLTable tbl = slPtr.CreateTable("A1", "E1");
             tbl.SetTableStyle(SLTableStyleTypeValues.Medium9);

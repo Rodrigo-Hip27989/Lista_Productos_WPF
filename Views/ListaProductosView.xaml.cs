@@ -20,7 +20,7 @@ namespace WPF_Productos.Views
         {
             List<string> productosF_List = new List<string>();
             //Bebidas
-            productosF_List.Add("Agua de Garrafon");
+            productosF_List.Add("Agua Garrafon");
             productosF_List.Add("Horchata");
             productosF_List.Add("Jamaica");
             //Verduras y Hortalizas
@@ -60,7 +60,7 @@ namespace WPF_Productos.Views
             productosF_List.Add("Arroz");
             productosF_List.Add("Maiz");
             productosF_List.Add("Elote");
-            productosF_List.Add("Avena");
+            productosF_List.Add("Tortilla");
             //Legumbres y semillas
             productosF_List.Add("Frijol");
             productosF_List.Add("Lenteja");
@@ -98,10 +98,12 @@ namespace WPF_Productos.Views
         private List<string> getUnidadesMasaVolumen()
         {
             List<string> masa_volumen__List = new List<string>();
-            masa_volumen__List.Add("Kilo(s)");
-            masa_volumen__List.Add("Gramo(s)");
-            masa_volumen__List.Add("Medida(s)");
             masa_volumen__List.Add("Bolsa(s)");
+            masa_volumen__List.Add("Cono(s)");
+            masa_volumen__List.Add("Garrafon(es)");
+            masa_volumen__List.Add("Gramo(s)");
+            masa_volumen__List.Add("Kilo(s)");
+            masa_volumen__List.Add("Medida(s)");
             masa_volumen__List.Add("Manojo(s)");
             masa_volumen__List.Add("Paquete(s)");
             masa_volumen__List.Add("Pieza(s)");

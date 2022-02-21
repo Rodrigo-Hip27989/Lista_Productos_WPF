@@ -13,7 +13,6 @@ namespace WPF_Productos.ViewModels
     public partial class ListaProductosViewModel : ViewModelBase
     {
         SLDocument slOriginal;
-        private string miWorksheetResumen = "Resumen_2022";
         private string miWorksheetDefault = "2022 - 02 - Quincena 1";
         private void MostrarProductosExcel()
         {
@@ -47,7 +46,6 @@ namespace WPF_Productos.ViewModels
                 List<string> hojasRestantes = slOriginal.GetWorksheetNames();
                 hojasRestantes.Sort();
                 hojasRestantes.Remove(miWorksheetDefault);
-                hojasRestantes.Remove(miWorksheetResumen);
 
                 foreach (string hojaR in hojasRestantes)
                 {
@@ -57,7 +55,6 @@ namespace WPF_Productos.ViewModels
                 hojasRestantes.Add(miWorksheetDefault);
                 hojasRestantes.Sort();
                 slCopia.MoveWorksheet(miWorksheetDefault, hojasRestantes.IndexOf(miWorksheetDefault));
-
                 slCopia.SelectWorksheet(miWorksheetDefault);
 
                 MessageBox.Show("Se ha actualizo el excel correctamente !!!", tituloApp);

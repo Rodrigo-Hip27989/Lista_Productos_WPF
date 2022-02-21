@@ -29,6 +29,8 @@
         <Button Grid.Row="0" Grid.Column="0" Margin="7" Command="{Binding CambiarRutaExcel_Command}" Background="#80cbc4">Cambiar Ruta</Button>
         <Button Grid.Row="0" Grid.Column="1" Margin="7" Command="{Binding MostrarProductos_Command}" Background="#80cbc4">Mostrar Productos</Button>
         <Button Grid.Row="0" Grid.Column="2" Margin="7" Command="{Binding ReiniciarPantalla_Command}" Background="#80cbc4">Limpiar Pantalla</Button>
+        <TextBlock Grid.Row="0" Grid.Column="3" Margin="7" Text="Num. Items: " VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="WhiteSmoke"/>
+        <Label Grid.Row="0" Grid.Column="4" Margin="7" Content="{Binding Path=ProductosExcel_View.Count}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="WhiteSmoke"/>
 
         <DataGrid Grid.Row="1" Grid.ColumnSpan="5" ColumnWidth="*" IsReadOnly="True" Background="DarkGreen" 
                   ItemsSource="{Binding Path=ProductosExcel_View}" SelectedItem="{Binding Path=Current__Producto}"/>

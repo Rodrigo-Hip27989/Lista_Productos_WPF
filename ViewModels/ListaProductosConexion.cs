@@ -23,11 +23,12 @@ namespace WPF_Productos.ViewModels
 
             for (int countRow = startRow; countRow < (numeroProductos + startRow); countRow++)
             {
+                sumaPrecios += slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3));
                 ProductosExcel_View.Add(new Producto(
                     slOriginal.GetCellValueAsString(countRow, startColumn),
                     slOriginal.GetCellValueAsString(countRow, (startColumn + 1)),
                     slOriginal.GetCellValueAsString(countRow, (startColumn + 2)),
-                    (sumaPrecios += slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3))),
+                    slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3)),
                     slOriginal.GetCellValueAsDateTime(countRow, (startColumn + 4))
                 ));
             }

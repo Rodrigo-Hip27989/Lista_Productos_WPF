@@ -38,10 +38,11 @@ namespace WPF_Productos.ViewModels
                         ));
                     }
                     OnPropertyChanged("SumaPrecios");
+                    MessageBoxTemp.Show("Datos cargados correctamente !!!", tituloApp, 2, false);
                 }
                 else
                 {
-                    MessageBox.Show("No se encontrol el nombre de la hoja");
+                    MessageBox.Show("No se encontro la hoja en el excel");
                 }
             }
             catch (Exception ex)
@@ -73,8 +74,8 @@ namespace WPF_Productos.ViewModels
                 slCopia.MoveWorksheet(nombreHojaExcelDefault, hojasRestantes.IndexOf(nombreHojaExcelDefault));
                 slCopia.SelectWorksheet(nombreHojaExcelDefault);
 
-                MessageBox.Show("Se ha actualizo el excel correctamente !!!", tituloApp);
                 slCopia.SaveAs(RutaExcel);
+                MessageBoxTemp.Show("Excel actualizo correctamente !!!", tituloApp, 2, false);
             }
             catch (Exception ex)
             {

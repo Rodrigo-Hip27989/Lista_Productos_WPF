@@ -21,9 +21,8 @@ namespace WPF_Productos.ViewModels
         private void ReiniciarPantalla()
         {
             ProductosExcel_View = new ProductosCollection();
-            RutaExcel = rutaDocumento;
             SumaPrecios = 0;
-            MessageBox.Show("Se ha reiniciado la pantalla", tituloApp);
+            MessageBoxTemp.Show("Se ha reiniciado la pantalla", tituloApp, 2, false);
         }
         #endregion
     }

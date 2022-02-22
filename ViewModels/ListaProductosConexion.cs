@@ -126,7 +126,7 @@ namespace WPF_Productos.ViewModels
         public void AgregarEstilosCabecerasEnExcel(SLDocument slPtr, int startColumn, int startRow)
         {
             string[] misHeaders = { "Nombre", "Cantidad", "Medida", "Precio", "Fecha" };
-            int[] misColumnWidth = { 28, 14, 14, 14, 21 };
+            int[] misColumnWidth = { 24, 13, 13, 13, 18 };
 
             SLTable tbl = slPtr.CreateTable("A1", "E1");
             tbl.SetTableStyle(SLTableStyleTypeValues.Medium9);

@@ -32,7 +32,7 @@
         <Button Grid.Row="1" Grid.Column="0" Margin="7" Command="{Binding ReiniciarPantalla_Command}" Background="CornflowerBlue">Reiniciar Pantalla</Button>
 
         <TextBlock Grid.Row="1" Grid.Column="1" Margin="7" Text="Nombre Hoja: " VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="WhiteSmoke"/>
-        <TextBox Grid.Row="1" Grid.Column="2" Margin="7" Text="{Binding Path=NombreHojaExcelDefault}" VerticalAlignment="Center" Background="Transparent" Foreground="WhiteSmoke" BorderBrush="CornflowerBlue"/>
+        <TextBox Grid.Row="1" Grid.Column="2" Margin="7" Text="{Binding Path=NombreHojaExcelDefault, UpdateSourceTrigger=LostFocus}" VerticalAlignment="Center" Background="Transparent" Foreground="WhiteSmoke" BorderBrush="CornflowerBlue"/>
 
         <TextBlock Grid.Row="1" Grid.Column="3" Margin="15,5" Text="Num. Items: " VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="WhiteSmoke"/>
         <Label Grid.Row="1" Grid.Column="3" Margin="20,5" Content="{Binding Path=ProductosExcel_View.Count}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="WhiteSmoke"/>

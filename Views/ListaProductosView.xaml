@@ -12,8 +12,8 @@
     </Window.Resources>
     <Grid DataContext="{Binding Source={StaticResource ListaProductosViewModel}}" Background="#306090">
         <Grid.RowDefinitions>
-            <RowDefinition Height="37"/>
-            <RowDefinition Height="37"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*" />
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
@@ -26,40 +26,45 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Row="0" Grid.Column="0" Margin="7,5" Command="{Binding CambiarRutaExcel_Command}" Background="CornflowerBlue">Cambiar Ruta</Button>
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" Margin="7,5" Text="{Binding Path=RutaExcel}" IsEnabled="False" Foreground="LightGray" Background="Transparent" BorderBrush="Gray"/>
+        <Button Grid.Row="0" Grid.Column="0" Margin="7" Command="{Binding CambiarRutaExcel_Command}" Background="CornflowerBlue">Cambiar Ruta</Button>
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" Margin="7" Text="{Binding Path=RutaExcel}" Foreground="WhiteSmoke" Background="Transparent" BorderBrush="CornflowerBlue"/>
 
-        <Button Grid.Row="1" Grid.Column="0" Margin="7,5" Command="{Binding ReiniciarPantalla_Command}" Background="CornflowerBlue">Reiniciar Pantalla</Button>
+        <Button Grid.Row="1" Grid.Column="0" Margin="7" Command="{Binding ReiniciarPantalla_Command}" Background="CornflowerBlue">Reiniciar Pantalla</Button>
+
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="7" Text="Nombre Hoja: " VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="WhiteSmoke"/>
+        <TextBox Grid.Row="1" Grid.Column="2" Margin="7" Text="{Binding Path=NombreHojaExcelDefault}" VerticalAlignment="Center" Background="Transparent" Foreground="WhiteSmoke" BorderBrush="CornflowerBlue"/>
+
         <TextBlock Grid.Row="1" Grid.Column="3" Margin="15,5" Text="Num. Items: " VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="WhiteSmoke"/>
         <Label Grid.Row="1" Grid.Column="3" Margin="20,5" Content="{Binding Path=ProductosExcel_View.Count}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="WhiteSmoke"/>
         <TextBlock Grid.Row="1" Grid.Column="4" Margin="15,5" Text="Suma: " VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="WhiteSmoke"/>
         <Label Grid.Row="1" Grid.Column="4" Margin="20,5" Content="{Binding SumaPrecios}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="WhiteSmoke"/>
 
-        <DataGrid Grid.Row="2" Grid.ColumnSpan="5" ColumnWidth="*" IsReadOnly="True" Background="#102040" 
+        <DataGrid Grid.Row="2" Grid.ColumnSpan="5" ColumnWidth="*" IsReadOnly="True" Background="#204060" 
                   ItemsSource="{Binding Path=ProductosExcel_View}" SelectedItem="{Binding Path=Current__Producto}"/>
 
-        <TextBox Grid.Row="3" Grid.Column="0" Margin="8" Text="{Binding Current__Producto.Nombre}" Background="#80cbc4"/>
+        <TextBox Grid.Row="3" Grid.Column="0" Margin="8" Text="{Binding Current__Producto.Nombre}" VerticalAlignment="Center"  Background="CornflowerBlue"/>
 
         <ComboBox Grid.Row="3" Grid.Column="0" Margin="7" Width="20" HorizontalAlignment="Right" 
                  x:Name="comboProductos" SelectedItem="{Binding Current__Producto.Nombre}">
         </ComboBox>
 
-        <TextBox Grid.Row="3" Grid.Column="1" Margin="8" Text="{Binding Current__Producto.Cantidad}" Background="#80cbc4 "/>
+        <TextBox Grid.Row="3" Grid.Column="1" Margin="8" Text="{Binding Current__Producto.Cantidad}" VerticalAlignment="Center" Background="CornflowerBlue"/>
 
-        <ComboBox Grid.Row="3" Grid.Column="2" Margin="7" 
+        <TextBox Grid.Row="3" Grid.Column="2" Margin="8" Text="{Binding Current__Producto.Medida}" VerticalAlignment="Center"  Background="CornflowerBlue"/>
+        <ComboBox Grid.Row="3" Grid.Column="2" Margin="7" Width="20" HorizontalAlignment="Right"
                   x:Name="comboMedidas" SelectedItem="{Binding Current__Producto.Medida}">
         </ComboBox>
-        
-        <TextBox Grid.Row="3" Grid.Column="3" Margin="7" Text="{Binding Current__Producto.Precio}" Background="#80cbc4 "/>
 
-        <DatePicker Grid.Row="3" Grid.Column="4" Margin="5,8" Background="#80cbc4" BorderBrush="Transparent"
+        <TextBox Grid.Row="3" Grid.Column="3" Margin="7" Text="{Binding Current__Producto.Precio}" VerticalAlignment="Center" Background="CornflowerBlue"/>
+
+        <DatePicker Grid.Row="3" Grid.Column="4" Margin="5,8" Background="CornflowerBlue" BorderBrush="Transparent"
                      SelectedDate="{Binding Current__Producto.Fecha}"/>
 
         <Button Grid.Row="4" Grid.Column="0" Margin="7" Command="{Binding MostrarProductos_Command}" Background="CadetBlue">Mostrar</Button>
         <Button Grid.Row="4" Grid.Column="1" Margin="7" Command="{Binding NuevoProducto_Command}" Background="CadetBlue">Crear Nuevo</Button>
         <Button Grid.Row="4" Grid.Column="2" Margin="7" Command="{Binding AgregarProducto_Command}" Background="CadetBlue">Agregar</Button>
         <Button Grid.Row="4" Grid.Column="3" Margin="7" Command="{Binding EliminarProducto_Command}" Background="#ec407a">Eliminar</Button>
-        <Button Grid.Row="4" Grid.Column="4" Margin="7" Command="{Binding ActualizarProductos_Command}" Background="CadetBlue">Actualizar Excel</Button>
+        <Button Grid.Row="4" Grid.Column="4" Margin="7" Command="{Binding ActualizarProductos_Command}" Background="CornflowerBlue">Actualizar Excel</Button>
 
     </Grid>
 </Window>

@@ -10,6 +10,7 @@ namespace WPF_Productos.ViewModels
     public partial class ListaProductosViewModel : ViewModelBase
     {
         private string rutaExcel;
+        private string nombreHojaExcelDefault;
         private Producto current__Producto;
         private ProductosCollection productosExcel_View;
         private double sumaPrecios;
@@ -17,6 +18,11 @@ namespace WPF_Productos.ViewModels
         {
             get { return sumaPrecios; }
             set { sumaPrecios = value; OnPropertyChanged("SumaPrecios"); }
+        }
+        public string NombreHojaExcelDefault
+        {
+            get { return nombreHojaExcelDefault; }
+            set { nombreHojaExcelDefault = value; OnPropertyChanged("NombreHojaExcelDefault"); }
         }
         public Producto Current__Producto
         {

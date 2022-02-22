@@ -18,23 +18,31 @@ namespace WPF_Productos.ViewModels
         {
             try
             {
-                slOriginal = new SLDocument(RutaExcel, nombreHojaExcelDefault);
-
-                int startColumn = 1, startRow = 2; //Sin contar las cabeceras
-                int numeroProductos = getNumeroProductosTabla(slOriginal, startColumn, startRow);
-
-                for (int countRow = startRow; countRow < (numeroProductos + startRow); countRow++)
+                slOriginal = new SLDocument(RutaExcel);
+                List<string> hojasExcel = slOriginal.GetWorksheetNames();
+                if (hojasExcel.Contains(nombreHojaExcelDefault))
                 {
-                    sumaPrecios += slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3));
-                    ProductosExcel_View.Add(new Producto(
-                        slOriginal.GetCellValueAsString(countRow, startColumn),
-                        slOriginal.GetCellValueAsString(countRow, (startColumn + 1)),
-                        slOriginal.GetCellValueAsString(countRow, (startColumn + 2)),
-                        slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3)),
-                        slOriginal.GetCellValueAsDateTime(countRow, (startColumn + 4))
-                    ));
+                    slOriginal.SelectWorksheet(nombreHojaExcelDefault);
+                    int startColumn = 1, startRow = 2; //Sin contar las cabeceras
+                    int numeroProductos = getNumeroProductosTabla(slOriginal, startColumn, startRow);
+
+                    for (int countRow = startRow; countRow < (numeroProductos + startRow); countRow++)
+                    {
+                        sumaPrecios += slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3));
+                        ProductosExcel_View.Add(new Producto(
+                            slOriginal.GetCellValueAsString(countRow, startColumn),
+                            slOriginal.GetCellValueAsString(countRow, (startColumn + 1)),
+                            slOriginal.GetCellValueAsString(countRow, (startColumn + 2)),
+                            slOriginal.GetCellValueAsDouble(countRow, (startColumn + 3)),
+                            slOriginal.GetCellValueAsDateTime(countRow, (startColumn + 4))
+                        ));
+                    }
+                    OnPropertyChanged("SumaPrecios");
                 }
-                OnPropertyChanged("SumaPrecios");
+                else
+                {
+                    MessageBox.Show("No se encontrol el nombre de la hoja");
+                }
             }
             catch (Exception ex)
             {

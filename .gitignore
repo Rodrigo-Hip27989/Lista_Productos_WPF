@@ -1,6 +1,8 @@
 bin/
 obj/
 .vs/
+.vscode/
+Properties/
 AssemblyInfo.cs
 WPF_Productos.csproj
 WPF_Productos.csproj.user

@@ -1,5 +1,8 @@
-# WPF_Productos
+## Lista de Productos
+
 Aplicación para Visualizar y Modificar una lista de Productos en Excel (Usando el patrón MVVM)
+
+### Screenshots
 
 ![Reiniciar_Pantalla](img/Reiniciar_Pantalla.png)
 ![Mostrar_Productos](img/Mostrar_Productos.png)
